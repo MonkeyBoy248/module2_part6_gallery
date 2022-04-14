@@ -3,16 +3,6 @@ import { writeLogs } from "../utils/writeLogs";
 import { setDateFormat } from "../utils/dateFormat";
 
 export class Logger {
-  private setRequestBodyFormat = (req: Request) => {
-    const bodyValuesArray: string[] = [];
-
-    for (const [key, value] of Object.entries(req)) {
-      bodyValuesArray.push(`${key}: ${value}`)
-    }
-
-    return bodyValuesArray.join(', ');
-  }
-
   private setRequestInfoFormat = (req: Request) => {
     const reqMethod = req.method;
     const reqProtocol = req.protocol;
@@ -20,12 +10,7 @@ export class Logger {
     const reqHost = `${req.hostname}-${process.env.PORT}`;
     const reqUrl = req.url;
 
-    let logTemplate = `[${reqProtocol}:${reqProtocolVersion}-${reqHost}] ${reqMethod}:${reqUrl}`;
-
-    if (req.method.toLowerCase() === 'post') {
-      const reqBody = this.setRequestBodyFormat(req.body);
-      logTemplate += ` {${reqBody}}`
-    }
+    const logTemplate = `[${reqProtocol}:${reqProtocolVersion}-${reqHost}] ${reqMethod}:${reqUrl}`;
 
     return logTemplate;
   }
@@ -37,7 +22,7 @@ export class Logger {
     return `${dateInfo} ${requestInfo}`;
   }
 
-  writeLogs = async (req: Request, res: Response, next: NextFunction) => {
+  setLogsFormatAndWrite = async (req: Request, res: Response, next: NextFunction) => {
     const logsFormat = this.setLogsFormat(req);
 
     res.on('finish',  async function (this: Response) {
