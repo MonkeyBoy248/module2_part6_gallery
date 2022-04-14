@@ -13,6 +13,7 @@ import passport from "passport";
 import {initializeJWTStrategy} from "./passport/jwtStrategy";
 import {initializeLogInStrategy} from "./passport/loginStrategy";
 import {initializeSignUpStrategy} from "./passport/signupStrategy";
+import {customErrorHandler} from "./middleware/errorHandler.middleware";
 
 dotenv.config();
 
@@ -31,7 +32,7 @@ console.log('port', process.env.PORT);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.use(logger.writeLogs);
+app.use(logger.setLogsFormatAndWrite);
 
 app.use('/',
   express.static(paths.STATIC_VIEWS_PATH),
@@ -47,7 +48,9 @@ app.use(passport.initialize());
 app.use(authenticationController.router);
 app.use(galleryController.router);
 
-app.use(nonexistentPageHandler)
+app.use(nonexistentPageHandler);
+
+app.use(customErrorHandler);
 
 connectDB()
   .then(() => addUsersToDB())
