@@ -4,5 +4,5 @@ import {writeLogs} from "../utils/writeLogs";
 export async function customErrorHandler (err: Error, req: Request, res: Response, next: NextFunction) {
   await writeLogs(err.message);
 
-  res.status(500).send('Error has occurred');
+  res.status(500).send({error: 'Error has occurred'});
 }
