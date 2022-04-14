@@ -10,7 +10,13 @@
     "rm:interfaces": "rm -R ./build/backend/interfaces",
     "clear": "rm -R ./build || true",
     "build": "npm run clear && tsc && npm run copy-modules && npm run rm:interfaces && cp -R ./build/backend ../build",
-    "start:backend": "nodemon ../build/backend/server.js"
+    "start:backend": "node ../build/backend/server.js",
+    "pm2:restart": "pm2 restart ../build/backend/server.js",
+    "pm2:stop": "pm2 stop ../build/backend/server.js",
+    "pm2:delete": "pm2 delete ../build/backend/server.js",
+    "pm2:log": "pm2 logs --json",
+    "pm2:monit": "pm2 monit",
+    "pm2:start": "pm2 start ../build/backend/server.js"
   },
   "devDependencies": {
     "@types/bcrypt": "5.0.0",
@@ -40,6 +46,7 @@
     "mongoose": "6.2.9",
     "passport": "0.5.2",
     "passport-jwt": "4.0.0",
-    "passport-local": "1.0.0"
+    "passport-local": "1.0.0",
+    "pm2": "5.2.0"
   }
 }
