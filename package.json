@@ -1,0 +1,21 @@
+{
+  "name": "module2_part5_gallery",
+  "version": "1.0.0",
+  "description": "![GitHub issues](https://img.shields.io/github/issues/MonkeyBoy248/module2_part4_gallery) ![GitHub commit activity](https://img.shields.io/github/commit-activity/w/MonkeyBoy248/module2_part4_gallery)",
+  "main": "build/backend/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node backend/src/server.ts",
+    "copy:resources": "cp -r backend/public build/backend",
+    "copy:pages": "cd backend/ && cp -r ./views ../build/backend",
+    "rm-build:backend": "cd backend/ && rmdir build",
+    "build:backend": "cd backend && npm run build",
+    "build:user_pictures": "cp -r storage/ build/backend/public/api_images",
+    "build:frontend": "cd frontend && npm run build",
+    "build:all": "npm run build:frontend && npm run build:backend",
+    "build": "chmod 777 build.sh && ./build.sh",
+    "start": "npm run build && cd backend && npm run start:backend"
+  },
+  "author": "Kirill Temnyi",
+  "license": "ISC"
+}

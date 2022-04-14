@@ -1,0 +1,174 @@
+openapi: "3.0.0"
+servers:
+  - url: http://localhost:8000
+info:
+  version: 1.0.0
+  title: Gallery API Documentation
+  license:
+    name: MIT
+paths:
+  /authentication:
+    post:
+      summary: Get authentication token
+      operationId: authentication
+      tags:
+        - authentication
+      requestBody: 
+        content:
+          application/json:
+            schema: 
+              $ref: "#/components/schemas/User"
+      responses:
+        '200':
+          description: Token object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+        default:
+          description: Invalid user data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorMessage"
+  /gallery:
+    get:
+      security:
+       - TokenAuth: []
+      summary: Get all pictures for a specific page
+      operationId: getPagePictures
+      tags:
+        - gallery
+      parameters:
+        - name: page
+          in: query
+          required: true
+          description: The page number of the gallery with certain pictures
+          schema:
+            type: string
+      responses:
+        '200':
+          description: An object with an array of image names, the current page number and the total amount of pages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Gallery"
+        '403':
+          description: Forbidden
+          content: 
+            text/plain:
+              schema: 
+                example: Forbidden
+        '404':
+          description: Nonexistent page number
+          content:
+            text/plain:
+              schema:
+                example: Not found
+    post:
+        summary: Send user's pictures
+        operationId: sendUserPicture
+        tags:
+          - gallery
+        requestBody: 
+          content:
+            multipart/form-data:
+              schema: 
+                $ref: "#/components/schemas/Picture"
+        responses:
+          '200':
+            description: An object with an array of image names, the current page number and the total amount of pages
+            content:
+              text/plain:
+                schema:
+                  example: OK
+          '500':
+            description: Saving the file failed
+            content:
+              text/plain:
+                schema:
+                  example: Internal Server Error
+components:
+  securitySchemes:
+    TokenAuth:
+      type: http
+      scheme: basic
+  schemas:
+    Token:
+      type: object
+      required:
+        - token
+      properties:
+        token:
+          type: string
+          example: token
+    User: 
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: some_mail@example.com
+        password: 
+          type: string
+    ErrorMessage:
+      type: object
+      required: 
+        - errorMessage
+      properties:
+        errorMessage:
+          type: string
+          example: forbidden
+    Gallery:
+      type: object
+      required:
+        - objects
+        - total
+        - page
+      properties:
+        objects:
+          type: array
+          items: 
+            type: string
+          example: ["image_1, image_2, image_3"]
+        total:
+          type: number
+          example: 5
+        page: 
+          type: number
+          example: 3
+    Picture:
+      type: object
+      required:
+        - fieldname
+        - originalname
+        - encoding
+        - mimetype
+        - destination
+        - filename
+        - path
+        - size
+      properties:
+        fieldname:
+          type: string
+        originalname:
+          type: string
+        encoding:
+          type: string
+        mimetype:
+          type: string
+        destination:
+          type: string
+        fielename:
+          type: string
+        path:
+          type: string
+        size:
+          type: number
+        
+          
+          
+          
+          

@@ -1,0 +1,12 @@
+node_modules
+.vs_code/
+.idea/
+build/
+dist/
+frontend/src/views/modules
+frontend/src/views/scripts
+backend/views
+.editorconfig
+.env
+logs/
+storage/
