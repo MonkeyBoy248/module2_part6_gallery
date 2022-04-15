@@ -15,8 +15,7 @@
     "build:all": "npm run build:frontend && npm run build:backend",
     "build": "chmod 777 build.sh && ./build.sh",
     "start": "npm run build && cd backend && npm run start:backend",
-    "start:pm2": "npm run build && cd backend && npm run pm2:start && npm run pm2:log",
-    "delete:pm2": "cd backend && npm run pm2:delete"
+    "start:pm2": "npm run build && cd backend && npm run pm2:start && npm run pm2:log"
   },
   "author": "Kirill Temnyi",
   "license": "ISC"

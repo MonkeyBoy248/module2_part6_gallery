@@ -13,10 +13,10 @@
     "start:backend": "node ../build/backend/server.js",
     "pm2:restart": "pm2 restart ../build/backend/server.js",
     "pm2:stop": "pm2 stop ../build/backend/server.js",
-    "pm2:delete": "pm2 delete ../build/backend/server.js",
+    "pm2:delete": "pm2 delete ../build/backend/server.js || true",
     "pm2:log": "pm2 logs --json",
     "pm2:monit": "pm2 monit",
-    "pm2:start": "pm2 start ../build/backend/server.js"
+    "pm2:start": "npm run pm2:delete && pm2 start ../build/backend/server.js"
   },
   "devDependencies": {
     "@types/bcrypt": "5.0.0",
