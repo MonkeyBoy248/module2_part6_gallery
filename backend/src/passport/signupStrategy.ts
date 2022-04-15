@@ -3,6 +3,7 @@ import {hashPassword} from "../utils/hashPassword";
 import {UserModel} from "../db/models/user.model";
 import {Strategy as LocalStrategy} from "passport-local";
 import dotenv from 'dotenv';
+import {signUpError} from "../errors/signUpError";
 
 dotenv.config();
 
@@ -19,8 +20,8 @@ export function initializeSignUpStrategy (passport: passport.PassportStatic) {
       const user = await UserModel.create(userObject);
 
       return done(null, user);
-    } catch (error) {
-      done(error);
+    } catch {
+      done(new signUpError('This user already exists'));
     }
   }
 
