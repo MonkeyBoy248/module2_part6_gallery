@@ -34,31 +34,15 @@ export async function getTotalImagesAmount () {
 }
 
 export async function getPicturesFromDB (this: any, id: ObjectId, page : number, limit: number, filter: string) {
-  let pictures;
+  let filterQuery = filter === 'false' ? {$or: [{owner: null}, {owner: id}]} : {owner: id};
 
-  if (filter !== 'false') {
-    pictures = await PictureModel.find({owner: id}, null, {skip: limit * page - limit, limit: limit})
-
-    return pictures;
-  }
-
-  pictures = await PictureModel.find({$or: [{owner: null}, {owner: id}]}, null, {skip: limit * page - limit, limit: limit});
-
-  return pictures;
+  return await PictureModel.find(filterQuery, null, {skip: limit * page - limit, limit: limit});
 }
 
 export async function getPicturesAmount (id: ObjectId, filter: string) {
-  let userPicturesAmount;
+  let filterQuery = filter === 'false' ? {$or: [{owner: null}, {owner: id}]} : {owner: id};
 
-  if (filter !== 'false') {
-    userPicturesAmount = PictureModel.countDocuments({owner: id})
-
-    return userPicturesAmount;
-  }
-
-  userPicturesAmount = PictureModel.countDocuments({$or: [{owner: null}, {owner: id}]});
-
-  return userPicturesAmount;
+  return await PictureModel.countDocuments(filterQuery);
 }
 
 export async function isUserPicturesEmpty (id: ObjectId) {
